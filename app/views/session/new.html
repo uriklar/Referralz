@@ -1,0 +1,21 @@
+<form ng-submit="handleLoginBtnClicked()" role="form" ng-init="loginForm = {}">
+  <div clas="row">
+    <label for="email">Email</label>
+    <input type="email"
+           name="email"
+           id="email"
+           ng-model="loginForm.email"
+           required="required">
+  </div>
+
+  <div class="row">
+    <label for="password">Password</label>
+    <input type="password"
+           name="password"
+           id="password"
+           ng-model="loginForm.password"
+           required="required">
+  </div>
+
+  <button type="submit" class="button">Sign in</button>
+</form>

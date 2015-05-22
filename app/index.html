@@ -21,9 +21,17 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
-      <div ng-view=""></div>
+    <header>
+      <li ng-show="!user.id"><a ng-href="#/sign-in">Sign in</a></li>
+      <li ng-show="user.id"><a ng-click='signOut()'>Sign out</a></li>
+    </header>
+
+    <div id="main-container" ui-view="">
     </div>
+
+    <footer>
+      This is the footer
+    </footer>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -61,15 +69,21 @@
     <script src="bower_components/foundation/js/foundation.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
+    <script src="bower_components/angular-cookie/angular-cookie.js"></script>
+    <script src="bower_components/ng-token-auth/dist/ng-token-auth.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
         <script src="scripts/business/new-ctrl.js"></script>
         <script src="scripts/business/show-ctrl.js"></script>
+        <script src="scripts/session/new-ctrl.js"></script>
+        <script src="scripts/user/new-ctrl.js"></script>
+        <script src="scripts/user/show-ctrl.js"></script>
+
         <!-- endbuild -->
 </body>
 </html>

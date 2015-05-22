@@ -16,34 +16,61 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'restangular'
+    'ui.router',
+    'restangular',
+    'ng-token-auth'
   ])
-  .config(function ($routeProvider,RestangularProvider) {
-    $routeProvider
-      .when('/', {
+  .run(function ($rootScope, $location) {
+    $rootScope.$on('auth:login-success', function(ev,user) {
+      $location.path('/user/' + user.id);
+    });
+    $rootScope.$on('auth:registration-email-success', function(ev,user) {
+      $location.path('/user/' + user.id);
+    });
+  })
+  .config(function ($stateProvider,RestangularProvider, $authProvider) {
+    $stateProvider
+      // this state will be visible to everyone
+      .state('root', {
+        url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/business/new',{
+      .state('business-new', {
+        url: '/business/new',
         templateUrl: 'views/business/new.html',
-        controller: 'BusinessNewCtrl'
-      })
-      .when('/business/:id',{
-        templateUrl: 'views/business/show.html',
-        controller: 'BusinessShowCtrl',
+        controller: 'BusinessNewCtrl',
         resolve: {
-          business: function(Restangular,$route){
-            return Restangular.service('businesses').one($route.current.params.id).get().then(function (data) {
-              return data;
-            }, function () {
-              return []; // failure
-            });
+          auth: function($auth) {
+            return $auth.validateUser();
           }
         }
       })
-      .otherwise({
-        redirectTo: '/'
+      .state('business-show', {
+        url: '/business/{businessId}',
+        templateUrl: 'views/business/new.html',
+        controller: 'BusinessShowCtrl'
+      })
+      .state('sign-up', {
+        url: '/sign-up',
+        templateUrl: 'views/user/new.html',
+        controller: 'UserNewCtrl'
+      })
+      .state('sign-in', {
+        url: '/sign-in',
+        templateUrl: 'views/session/new.html',
+        controller: 'SessionNewCtrl'
+      })
+      .state('user-show',{
+        url: '/user/{userId}',
+        templateUrl: 'views/user/show.html',
+        controller: 'UserShowCtrl'
       });
 
     RestangularProvider.setBaseUrl('/api/v1');
+
+    $authProvider.configure({
+      apiUrl: '/api/v1'
+    })
+
   });
