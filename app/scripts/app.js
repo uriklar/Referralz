@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'ui.router',
     'restangular',
-    'ng-token-auth'
+    'ng-token-auth',
+    //'ngFileUpload'
   ])
   .run(function ($rootScope, $location) {
     $rootScope.$on('auth:login-success', function(ev,user) {
@@ -43,13 +44,29 @@ angular
         resolve: {
           auth: function($auth) {
             return $auth.validateUser();
+          },
+          categories: function(Restangular) {
+            return Restangular.service('categories').getList().then(function (data) {
+              return data;
+            }, function () {
+              return []; // failure
+            });
           }
         }
       })
       .state('business-show', {
         url: '/business/{businessId}',
-        templateUrl: 'views/business/new.html',
-        controller: 'BusinessShowCtrl'
+        templateUrl: 'views/business/show.html',
+        controller: 'BusinessShowCtrl',
+        resolve: {
+          business: function(Restangular,$stateParams) {
+            return Restangular.service('businesses').one($stateParams.businessId).get().then(function (data) {
+              return data;
+            }, function () {
+              return []; // failure
+            });
+          }
+        }
       })
       .state('sign-up', {
         url: '/sign-up',
