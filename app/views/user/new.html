@@ -1,0 +1,18 @@
+<form ng-submit="handleSignupBtnClicked()" role="form" ng-init="regForm = {}">
+  <div class="row">
+    <label>email</label>
+    <input type="email" name="email" ng-model="regForm.email" required="required" class="form-control"/>
+  </div>
+
+  <div class="row">
+    <label>password</label>
+    <input type="password" name="password" ng-model="regForm.password" required="required" class="form-control"/>
+  </div>
+
+  <div class="row">
+    <label>password confirmation</label>
+    <input type="password" name="password_confirmation" ng-model="regForm.password_confirmation" required="required" class="form-control"/>
+  </div>
+
+  <button type="submit" class="button">Register</button>
+</form>
