@@ -1,2 +1,15 @@
-{{business}}
+<h1>{{business.name}}</h1>
+<div class="flex-container">
+  <ul class="flex-column">
+    <li ng-repeat="business in businesses">
+      <span ng-click="toggleFromNetwork(business)">{{business.name}}</span>
+    </li>
+  </ul>
+  <ul class="flex-column">
+    <li ng-repeat="business in business.businesses_in_network">
+      <span ng-click="toggleFromNetwork(business)">{{business.name}}</span>
+    </li>
+  </ul>
+</div>
+
 

@@ -59,12 +59,19 @@ angular
         templateUrl: 'views/business/show.html',
         controller: 'BusinessShowCtrl',
         resolve: {
-          business: function(Restangular,$stateParams) {
-            return Restangular.service('businesses').one($stateParams.businessId).get().then(function (data) {
+          businesses: function(Restangular) {
+            return Restangular.service('businesses').getList().then(function (data) {
               return data;
             }, function () {
               return []; // failure
             });
+          },
+          business: function(Restangular,$stateParams) {
+           return Restangular.one('businesses', $stateParams.businessId).get().then(function(data) {
+             return data;
+           }, function() {
+             return {}; //failure
+           })
           }
         }
       })
